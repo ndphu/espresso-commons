@@ -76,7 +76,6 @@ func (m *MessageRouter) HandleMessage(client mqtt.Client, mqttMessage mqtt.Messa
 }
 
 func NewMessageRouter(h string, p int, u string, pwd string, clientId string) (*MessageRouter, error) {
-	log.Println("Cool")
 	opt := mqtt.NewClientOptions()
 	opt.AddBroker(fmt.Sprintf("tcp://%s:%d", h, p))
 	opt.SetUsername(u)
