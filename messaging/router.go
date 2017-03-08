@@ -41,7 +41,6 @@ func (m *MessageRouter) loop() {
 			log.Println("Trying to reconnect to the broker...")
 			if token := m.client.Connect(); token.Wait() && token.Error() != nil {
 				log.Println("Faild to reconnect")
-				time.Sleep(1 * time.Second)
 			} else {
 				log.Println("Reconnected to the broker")
 				// subscribe current subscriber
@@ -62,6 +61,7 @@ func (m *MessageRouter) loop() {
 				}
 			}
 		}
+		time.Sleep(1 * time.Second)
 	}
 }
 
