@@ -1,4 +1,4 @@
-package model
+package messaging
 
 type Message struct {
 	Destination string      `json:"destination"`

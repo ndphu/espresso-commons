@@ -1,4 +1,4 @@
-package model
+package event
 
 import (
 	"gopkg.in/mgo.v2/bson"
@@ -9,7 +9,7 @@ var (
 	TypeIREventAdd = "IR_EVENT_ADDED"
 )
 
-type IRMessage struct {
+type IREvent struct {
 	Id            bson.ObjectId `json:"id" bson:"_id"`
 	Button        string        `json:"button"`
 	RemoteName    string        `json:"remoteName"`
@@ -20,10 +20,10 @@ type IRMessage struct {
 	UnixTimestamp int64         `json:"unixTimestamp" bson:"-"`
 }
 
-func (ir *IRMessage) GetObjectId() bson.ObjectId {
+func (ir *IREvent) GetObjectId() bson.ObjectId {
 	return ir.Id
 }
 
-func (ir *IRMessage) SetObjectId(id bson.ObjectId) {
+func (ir *IREvent) SetObjectId(id bson.ObjectId) {
 	ir.Id = id
 }

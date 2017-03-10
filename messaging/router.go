@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"github.com/eclipse/paho.mqtt.golang"
-	"github.com/ndphu/espresso-commons/model"
 	"log"
 	"time"
 )
@@ -23,7 +22,7 @@ type MessageRouter struct {
 }
 
 type MessageListener interface {
-	OnNewMessage(*model.Message)
+	OnNewMessage(*Message)
 }
 
 type ListenerRecord struct {
@@ -43,16 +42,6 @@ func (m *MessageRouter) loop() {
 				log.Println("Faild to reconnect")
 			} else {
 				log.Println("Reconnected to the broker")
-				// subscribe current subscriber
-				// lc := len(m.listenerRecords)
-				// tmp:=make([])
-				// m.listenerRecords = make([]ListenerRecord, 0)
-				// for i := 0; i < len(tmp); i++ {
-				// 	m.Subscribe(tmp[i].topic, tmp[i].listener)
-				// }
-				// for i := 0; i < len(m.listenerRecords); i++ {
-				// 	m.Subscribe(m.listenerRecords[i].topic, m.listenerRecords[i].listener)
-				// }
 				for k, _ := range m.listeners {
 					token := m.client.Subscribe(k, DefaultSubQos, func(c mqtt.Client, msg mqtt.Message) {
 						m.HandleMessage(c, msg)
@@ -68,7 +57,7 @@ func (m *MessageRouter) loop() {
 func (m *MessageRouter) HandleMessage(client mqtt.Client, mqttMessage mqtt.Message) {
 	topic := mqttMessage.Topic()
 	ls := m.listeners[topic]
-	msg := model.Message{}
+	msg := Message{}
 	json.Unmarshal(mqttMessage.Payload(), &msg)
 	for i := 0; i < len(ls); i++ {
 		go ls[i].OnNewMessage(&msg)
@@ -105,7 +94,7 @@ func NewMessageRouter(h string, p int, u string, pwd string, clientId string) (*
 
 }
 
-func (m *MessageRouter) Publish(msg model.Message) error {
+func (m *MessageRouter) Publish(msg Message) error {
 	if m.client.IsConnected() {
 		data, err := json.Marshal(msg)
 		if err != nil {
