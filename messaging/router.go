@@ -34,6 +34,10 @@ func (m *MessageRouter) Stop() {
 	m.running = false
 }
 
+func (m *MessageRouter) GetMQTTClient() mqtt.Client {
+	return m.client
+}
+
 func (m *MessageRouter) loop() {
 	for m.running {
 		if !m.client.IsConnected() {
@@ -101,7 +105,9 @@ func (m *MessageRouter) Publish(msg Message) error {
 			return err
 		}
 
-		if token := m.client.Publish(msg.Destination, DefaultPubQos, false, string(data)); token.Wait() && token.Error() != nil {
+		rawMsg := string(data)
+		log.Println("Publish", rawMsg)
+		if token := m.client.Publish(string(msg.Destination), DefaultPubQos, false, rawMsg); token.Wait() && token.Error() != nil {
 			return token.Error()
 		}
 		return nil
@@ -111,6 +117,7 @@ func (m *MessageRouter) Publish(msg Message) error {
 }
 
 func (m *MessageRouter) Subscribe(topic string, listener MessageListener) error {
+
 	if len(topic) == 0 {
 		return errors.New("Empty topic field")
 	}
@@ -118,6 +125,8 @@ func (m *MessageRouter) Subscribe(topic string, listener MessageListener) error 
 		m.HandleMessage(c, msg)
 	}); token.Wait() && token.Error() != nil {
 		return token.Error()
+	} else {
+		log.Println("Subscribed to topic", topic)
 	}
 
 	m.listeners[topic] = append(m.listeners[topic], listener)

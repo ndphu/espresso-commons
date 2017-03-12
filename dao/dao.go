@@ -16,8 +16,18 @@ type Repo interface {
 	IsSessionConnected() (bool, error)
 }
 
-func Count(r Repo) (int, error) {
+func Count(r Repo, selector bson.M) (int, error) {
+	if _, err := r.IsSessionConnected(); err != nil {
+		return -1, err
+	}
 	return r.GetCollection().Count()
+}
+
+func CountBy(r Repo, selector bson.M) (int, error) {
+	if _, err := r.IsSessionConnected(); err != nil {
+		return -1, err
+	}
+	return r.GetCollection().Find(selector).Count()
 }
 
 func FindOne(r Repo, selector bson.M, result interface{}) error {

@@ -1,13 +1,17 @@
 package commons
 
 import (
+	"fmt"
 	"math/rand"
 	"time"
 )
 
 var (
-	DBName            string = "espresso"
-	IRAgentEventTopic        = "components/ir-agent/events"
+	DBName               string = "espresso"
+	IRAgentEventTopic           = "/espresso/components/ir-agent/events"
+	TextCommandTopic            = "/espresso/components/device-manager/text-command"
+	CommandTopicTemplate        = "/espresso/devices/%s/commands"
+	DefaultToDeviceQos   byte   = 1
 )
 
 func GetRandom() int {
@@ -19,4 +23,8 @@ func GetRandom() int {
 func GetRandomWithSeed(seed int64) int {
 	rand.Seed(seed)
 	return rand.Int()
+}
+
+func GetCommandTopicFromSerial(serial string) string {
+	return fmt.Sprintf(CommandTopicTemplate, serial)
 }

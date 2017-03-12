@@ -10,7 +10,7 @@ var (
 )
 
 type IREvent struct {
-	Id            bson.ObjectId `json:"id" bson:"_id"`
+	Id            bson.ObjectId `json:"_id" bson:"_id"`
 	Button        string        `json:"button"`
 	RemoteName    string        `json:"remoteName"`
 	Code          uint64        `json:"code"`
