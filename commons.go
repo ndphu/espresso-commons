@@ -10,8 +10,11 @@ var (
 	DBName               string = "espresso"
 	IRAgentEventTopic           = "/espresso/components/ir-agent/events"
 	TextCommandTopic            = "/espresso/components/device-manager/text-command"
-	CommandTopicTemplate        = "/espresso/devices/%s/commands"
+	CommandTopicTemplate        = "/espresso/device/%s/commands"
 	DefaultToDeviceQos   byte   = 1
+	// MQTT
+	BrokerHost string = "19november.freeddns.org"
+	BrokerPort int    = 5370
 )
 
 func GetRandom() int {

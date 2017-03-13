@@ -37,6 +37,13 @@ func FindOne(r Repo, selector bson.M, result interface{}) error {
 	return r.GetCollection().Find(selector).One(result)
 }
 
+func FindOneLatest(r Repo, selector bson.M, timeField string, result interface{}) error {
+	if _, err := r.IsSessionConnected(); err != nil {
+		return err
+	}
+	return r.GetCollection().Find(selector).Sort("-" + timeField).One(result)
+}
+
 func FindAll(r Repo, selector bson.M, skip int, limit int, result interface{}) error {
 	if _, err := r.IsSessionConnected(); err != nil {
 		return err

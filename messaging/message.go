@@ -5,13 +5,17 @@ type MessageSource string
 type MessageDestination string
 
 var (
-	MessageType_IREventAdded       MessageType        = "IR_EVENT_ADDED"
-	MessageType_ExecuteTextCommand MessageType        = "EXEC_TEXT_COMMAND"
-	MessageType_ExecuteGPIOCommand MessageType        = "EXEC_GPIO_COMMAND"
-	MessageSource_UI               MessageSource      = "ui"
-	MessageSource_IR_AGENT         MessageSource      = "ir-agent"
-	MessageDestination_TextCommand MessageDestination = "/espresso/components/commands/text_commands"
-	MessageDestination_GPIOCommand MessageDestination = "/espresso/components/commands/gpio_commands"
+	MessageType_IREventAdded         MessageType        = "IR_EVENT_ADDED"
+	MessageType_ExecuteTextCommand   MessageType        = "EXEC_TEXT_COMMAND"
+	MessageType_ExecuteGPIOCommand   MessageType        = "EXEC_GPIO_COMMAND"
+	MessageType_DeviceOnline         MessageType        = "DEVICE_ONLINE"
+	MessageType_DeviceOffline        MessageType        = "DEVICE_OFFLINE"
+	MessageSource_UI                 MessageSource      = "ui"
+	MessageSource_IR_AGENT           MessageSource      = "ir-agent"
+	MessageSource_DeviceManager      MessageSource      = "device-manager"
+	MessageDestination_TextCommand   MessageDestination = "/espresso/components/commands/text_commands"
+	MessageDestination_GPIOCommand   MessageDestination = "/espresso/components/commands/gpio_commands"
+	MessageDestination_DeviceUpdated MessageDestination = "/espresso/components/devices/device_updated"
 )
 
 type Message struct {

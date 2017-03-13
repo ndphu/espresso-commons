@@ -10,9 +10,10 @@ var (
 
 type Device struct {
 	Id      bson.ObjectId `json:"_id" bson:"_id"`
-	Name    string        `json:"name"`
-	Serial  string        `json:"serial"`
-	Managed bool          `json:"managed"`
+	Name    string        `json:"name" bson:"name"`
+	Serial  string        `json:"serial" bson:"serial"`
+	Managed bool          `json:"managed" bson:"managed"`
+	Online  bool          `json:"online" bson:"online"`
 }
 
 func (ir *Device) GetObjectId() bson.ObjectId {
