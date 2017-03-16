@@ -1,29 +1,47 @@
 package messaging
 
+// Type of the message
 type MessageType string
-type MessageSource string
-type MessageDestination string
+
+// Where the message come frome
+type Source string
+
+// The topic to publish message
+type Topic string
 
 var (
-	MessageType_IREventAdded         MessageType        = "IR_EVENT_ADDED"
-	MessageType_ExecuteTextCommand   MessageType        = "EXEC_TEXT_COMMAND"
-	MessageType_ExecuteGPIOCommand   MessageType        = "EXEC_GPIO_COMMAND"
-	MessageType_DeviceOnline         MessageType        = "DEVICE_ONLINE"
-	MessageType_DeviceOffline        MessageType        = "DEVICE_OFFLINE"
-	MessageType_DeviceAdded          MessageType        = "DEVICE_ADDED"
-	MessageType_DeviceRemoved        MessageType        = "DEVICE_REMOVED"
-	MessageType_DeviceUpdated        MessageType        = "DEVICE_UPDATED"
-	MessageSource_UI                 MessageSource      = "ui"
-	MessageSource_IR_AGENT           MessageSource      = "ir-agent"
-	MessageSource_DeviceManager      MessageSource      = "device-manager"
-	MessageDestination_TextCommand   MessageDestination = "/espresso/components/commands/text_commands"
-	MessageDestination_GPIOCommand   MessageDestination = "/espresso/components/commands/gpio_commands"
-	MessageDestination_DeviceUpdated MessageDestination = "/espresso/components/devices/device_updated"
+	// Message Type
+	IREventAdded     MessageType = "IR_EVENT_ADDED"
+	TextCommandAdded MessageType = "TEXT_COMMAND_ADDED"
+	GPIOCommandAdded MessageType = "GPIO_COMMAND_ADDED"
+	DeviceOnline     MessageType = "DEVICE_ONLINE"
+	DeviceOffline    MessageType = "DEVICE_OFFLINE"
+	DeviceAdded      MessageType = "DEVICE_ADDED"
+	DeviceRemoved    MessageType = "DEVICE_REMOVED"
+	DeviceUpdated    MessageType = "DEVICE_UPDATED"
+
+	// Sourcce
+	UI            Source = "ui"
+	IRAgent       Source = "ir-agent"
+	DeviceManager Source = "device-manager"
+
+	// Topic
+	IPCDevice  Topic = "/esp/ipc/device"
+	IPCRule    Topic = "/esp/ipc/rule"
+	IPCEvent   Topic = "/esp/ipc/event"
+	IPCSensor  Topic = "/esp/ipc/sensor"
+	IPCCommand Topic = "/esp/ipc/command"
 )
 
+// The data used to communicate between components
 type Message struct {
-	Destination MessageDestination `json:"destination"`
-	Source      MessageSource      `json:"source"`
-	Type        MessageType        `json:"type"`
-	Payload     string             `json:"payload"`
+	// The topic to publish this message
+	Destination Topic `json:"destination"`
+	// Indicate where the message come from
+	// This is useful for consumer to decide if it need to process this message
+	Source Source `json:"source"`
+	// Kind of event for the consumer to process
+	Type MessageType `json:"type"`
+	// Message payload. Typically it is an object id related to the message type
+	Payload string `json:"payload"`
 }
