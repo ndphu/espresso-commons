@@ -8,9 +8,7 @@ import (
 
 var (
 	DBName               string = "espresso"
-	IRAgentEventTopic           = "/espresso/components/ir-agent/events"
-	TextCommandTopic            = "/espresso/components/device-manager/text-command"
-	CommandTopicTemplate        = "/espresso/device/%s/commands"
+	CommandTopicTemplate        = "/esp/device/%s/commands"
 	DefaultToDeviceQos   byte   = 1
 	// MQTT
 	BrokerHost string = "19november.freeddns.org"
