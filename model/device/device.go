@@ -13,8 +13,8 @@ type Device struct {
 	Name    string        `json:"name" bson:"name"`
 	Serial  string        `json:"serial" bson:"serial"`
 	Managed bool          `json:"managed" bson:"managed"`
-	Online  bool          `json:"online" bson:"online"`
 	Deleted bool          `json:"deleted" bson:"deleted"`
+	Status  DeviceStatus  `json:"status" bson:"status"`
 }
 
 func (ir *Device) GetObjectId() bson.ObjectId {
