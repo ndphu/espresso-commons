@@ -1,8 +1,12 @@
 package commons
 
 import (
+	"bufio"
+	"errors"
 	"fmt"
 	"math/rand"
+	"os"
+	"strings"
 	"time"
 )
 
@@ -28,4 +32,30 @@ func GetRandomWithSeed(seed int64) int {
 
 func GetCommandTopicFromSerial(serial string) string {
 	return fmt.Sprintf(CommandTopicTemplate, serial)
+}
+
+func GetEnv(name string, defaultValue string) string {
+	value := os.Getenv(name)
+	if len(value) == 0 {
+		value = defaultValue
+	}
+	return value
+}
+
+func RPiGetSerial(cpuInfoPath string) (s string, err error) {
+	cpuInfo, e := os.Open(cpuInfoPath)
+	if e != nil {
+		return "", e
+	}
+	defer cpuInfo.Close()
+	scanner := bufio.NewScanner(cpuInfo)
+	scanner.Split(bufio.ScanLines)
+
+	for scanner.Scan() {
+		line := scanner.Text()
+		if strings.Index(line, "Serial") == 0 {
+			return strings.TrimSpace(strings.Split(line, ":")[1]), nil
+		}
+	}
+	return "", errors.New("Fail to find serial")
 }
